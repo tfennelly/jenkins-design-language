@@ -5,16 +5,18 @@ docker.image("node").inside {
      */
 
     try {
-    stage "Checkout and build"
+	deleteDir()
+    	stage "Checkout and build"
         checkout scm
 	sh "HOME=. && npm install"
 
-    stage "Test and validate"	
+    	stage "Test and validate"	
         sh "HOME=. && npm run gulp"
     } catch(err) {
         currentBuild.result = "FAILURE"
     } finally {
         sendhipchat()
+	deleteDir()
     }
 
 }
